@@ -57,7 +57,7 @@
               </goals>
             </execution>
             <execution>
-              <id>deploy-cargo</id>
+              <id>redeploy-cargo</id>
               <goals>
                 <goal>redeploy</goal>
               </goals>
@@ -104,7 +104,7 @@
         <artifactId>cargo-maven2-plugin</artifactId>
         <executions>
           <execution>
-            <id>deploy-cargo</id>
+            <id>redeploy-cargo</id>
             <phase>pre-integration-test</phase>
           </execution>
           <execution>
