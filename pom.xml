@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
   <groupId>fish.payara.jonathan</groupId>
@@ -26,7 +26,9 @@
     <payara.adminPort>4848</payara.adminPort>
     <payara.username>admin</payara.username>
     <payara.password></payara.password>
-    <payara.hostname>localhost</payara.hostname>    
+    <payara.hostname>localhost</payara.hostname>
+    <payara.domainName>domain1</payara.domainName>
+    <payara.home></payara.home>
 
   </properties>
 
@@ -57,12 +59,6 @@
               </goals>
             </execution>
             <execution>
-              <id>stop-cargo</id>
-              <goals>
-                <goal>stop</goal>
-              </goals>
-            </execution>
-            <execution>
               <id>redeploy-cargo</id>
               <goals>
                 <goal>redeploy</goal>
@@ -72,6 +68,12 @@
               <id>undeploy-cargo</id>
               <goals>
                 <goal>undeploy</goal>
+              </goals>
+            </execution>
+            <execution>
+              <id>stop-cargo</id>
+              <goals>
+                <goal>stop</goal>
               </goals>
             </execution>
           </executions>
@@ -126,7 +128,7 @@
     <profile>
       <id>glassfish4x</id>
       <activation>
-        <activeByDefault>true</activeByDefault>
+        <activeByDefault>false</activeByDefault>
       </activation>
       <build>
         <pluginManagement>
@@ -140,22 +142,22 @@
                   <type>remote</type>
 
                 </container>
-                 <configuration>
-    				<type>runtime</type>
+                <configuration>
+                  <type>runtime</type>
     				
-    				<properties>
-    					<cargo.remote.username>admin</cargo.remote.username>
-      					<cargo.remote.password>""</cargo.remote.password>
-   				 </properties>
-    			</configuration>
+                  <properties>
+                    <cargo.remote.username>admin</cargo.remote.username>
+                    <cargo.remote.password>""</cargo.remote.password>
+                  </properties>
+                </configuration>
               </configuration>
               <!-- provides JSR88 client API to deploy on Glassfish -->
               <dependencies>
-                  <dependency>
-                      <groupId>org.glassfish.main.deployment</groupId>
-                      <artifactId>deployment-client</artifactId>
-                      <version>4.1.1</version>
-                  </dependency>            
+                <dependency>
+                  <groupId>org.glassfish.main.deployment</groupId>
+                  <artifactId>deployment-client</artifactId>
+                  <version>4.1.1</version>
+                </dependency>            
               </dependencies>            
             </plugin>
           </plugins>
@@ -179,24 +181,79 @@
                   <type>remote</type>
 
                 </container>
-                 <configuration>
-    				<type>runtime</type>
+                <configuration>
+                  <type>runtime</type>
     				
-    				<properties>
-                                    <cargo.remote.username>${payara.username}</cargo.remote.username>
-                                    <cargo.remote.password>${payara.password}</cargo.remote.password>
-                                    <cargo.glassfish.admin.port>${payara.adminPort}</cargo.glassfish.admin.port>
-                                    <cargo.hostname>${payara.hostname}</cargo.hostname>
-                                </properties>
-    			</configuration>
+                  <properties>
+                    <cargo.remote.username>${payara.username}</cargo.remote.username>
+                    <cargo.remote.password>${payara.password}</cargo.remote.password>
+                    <cargo.glassfish.admin.port>${payara.adminPort}</cargo.glassfish.admin.port>
+                    <cargo.hostname>${payara.hostname}</cargo.hostname>
+                  </properties>
+                </configuration>
               </configuration>
               <!-- provides JSR88 client API to deploy on Payara -->
               <dependencies>
-                  <dependency>
-                      <groupId>org.glassfish.main.deployment</groupId>
-                      <artifactId>deployment-client</artifactId>
-                      <version>4.1.1</version>
-                  </dependency>            
+                <dependency>
+                  <groupId>org.glassfish.main.deployment</groupId>
+                  <artifactId>deployment-client</artifactId>
+                  <version>4.1.1</version>
+                </dependency>            
+              </dependencies>
+            </plugin>
+          </plugins>
+        </pluginManagement>
+      </build>
+    </profile>
+    <profile>
+      <id>payara4x-local</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.cargo</groupId>
+            <artifactId>cargo-maven2-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>start-cargo</id>
+                <phase>pre-integration-test</phase>
+              </execution>
+              <execution>
+                <id>stop-cargo</id>
+                <phase>post-integration-test</phase>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>org.codehaus.cargo</groupId>
+              <artifactId>cargo-maven2-plugin</artifactId>
+              <configuration>
+                <container>
+                  <containerId>glassfish4x</containerId>
+                  <type>installed</type>
+                  <home>${payara.home}</home>
+                </container>
+                <configuration>
+                  <type>existing</type>
+    				
+                  <properties>
+                    <cargo.remote.username>${payara.username}</cargo.remote.username>
+                    <cargo.remote.password>${payara.password}</cargo.remote.password>
+                    <cargo.glassfish.admin.port>${payara.adminPort}</cargo.glassfish.admin.port>
+                    <cargo.hostname>${payara.hostname}</cargo.hostname>
+                    <cargo.glassfish.domain.name>${payara.domainName}</cargo.glassfish.domain.name>
+                  </properties>
+                </configuration>
+              </configuration>
+              <!-- provides JSR88 client API to deploy on Payara -->
+              <dependencies>
+                <dependency>
+                  <groupId>org.glassfish.main.deployment</groupId>
+                  <artifactId>deployment-client</artifactId>
+                  <version>4.1.1</version>
+                </dependency>            
               </dependencies>
             </plugin>
           </plugins>
