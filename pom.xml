@@ -43,6 +43,32 @@
               </properties>
             </configuration>
           </configuration>
+          <executions>
+            <execution>
+              <id>start-cargo</id>
+              <goals>
+                <goal>start</goal>
+              </goals>
+            </execution>
+            <execution>
+              <id>stop-cargo</id>
+              <goals>
+                <goal>stop</goal>
+              </goals>
+            </execution>
+            <execution>
+              <id>deploy-cargo</id>
+              <goals>
+                <goal>redeploy</goal>
+              </goals>
+            </execution>
+            <execution>
+              <id>undeploy-cargo</id>
+              <goals>
+                <goal>undeploy</goal>
+              </goals>
+            </execution>
+          </executions>
         </plugin>
       </plugins>
     </pluginManagement>
@@ -78,18 +104,12 @@
         <artifactId>cargo-maven2-plugin</artifactId>
         <executions>
           <execution>
-            <id>start-cargo</id>
+            <id>deploy-cargo</id>
             <phase>pre-integration-test</phase>
-            <goals>
-              <goal>start</goal>
-            </goals>
           </execution>
           <execution>
-            <id>stop-cargo</id>
+            <id>undeploy-cargo</id>
             <phase>post-integration-test</phase>
-            <goals>
-              <goal>stop</goal>
-            </goals>
           </execution>
         </executions>
       </plugin>
@@ -137,7 +157,7 @@
       </build>
     </profile>
     <profile>
-      <id>payara4x</id>
+      <id>payara4x-remote</id>
       <activation>
         <activeByDefault>true</activeByDefault>
       </activation>
