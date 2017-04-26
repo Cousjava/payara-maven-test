@@ -78,6 +78,7 @@ Available maven properties:
  - `payara.adminPort` - admin port (by default the standard port 4848 is used)
  - `payara.hostname` - hostname/IP where the server is running ("localhost" by default)
  - `payara.domainName` - the domain used when starting the server ("domain1" by default)
+ - `payara.domainDir` - the parent directory of the domain directory ("${payara.home}/glassfish/domains" by default)
 
 
 ## More information about the Cargo plugin and Payara server
