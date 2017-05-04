@@ -5,7 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>fish.payara.jonathan</groupId>
   <artifactId>mavenplugintest</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.0</version>
   <packaging>war</packaging>
   <name>Cargo Maven Example</name>
 
@@ -157,7 +157,7 @@
                 <dependency>
                   <groupId>org.glassfish.main.deployment</groupId>
                   <artifactId>deployment-client</artifactId>
-                  <version>4.1.1</version>
+                  <version>4.1.2</version>
                 </dependency>            
               </dependencies>
             </plugin>
@@ -213,7 +213,7 @@
                 <dependency>
                   <groupId>org.glassfish.main.deployment</groupId>
                   <artifactId>deployment-client</artifactId>
-                  <version>4.1.1</version>
+                  <version>4.1.2</version>
                 </dependency>            
               </dependencies>
             </plugin>
